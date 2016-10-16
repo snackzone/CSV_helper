@@ -1,6 +1,11 @@
 require('CSV')
 
 class CSVParser
+  def self.check_file(filepath)
+    parser = CSVParser.new(filepath)
+    parser.is_valid?
+  end
+
   attr_accessor :filepath
 
   def initialize(filepath)
@@ -23,6 +28,16 @@ class CSVParser
     validate!
     print_errors
     errors.empty?
+  end
+
+  def print_line(n)
+    lines = File.readlines(filepath)
+
+    if !n.is_a?(Integer) || n < 1 || n > lines.length
+      "Invalid line number."
+    else
+      lines[n - 1].strip
+    end
   end
 
   private
